@@ -1,0 +1,91 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $("#mp").click(function(){
+            $.ajax({dataType: "json",url: "http://localhost:8080/game/managementPage",
+            success: function(result){
+                $("#managementPage").html("Games:");
+                 for(var key in result) {
+                    $("#managementPage").html(result[key].id+" "+result[key].appUser.username+" "+result[key].finished);
+                }
+            }
+            });
+        });
+    });
+
+    $(document).ready(function(){
+        $("#cu").click(function(){
+            var name = $( "#cui" ).val();
+            $.ajax({dataType: "json",url: "http://localhost:8080/user/create/"+name,
+            type:"POST",
+            data:{},
+            success: function(result){
+               console.log(result);
+               $("#messages").html("Created user "+result.username);
+            }
+            });
+        });
+    });
+
+    $(document).ready(function(){
+        $("#cg").click(function(){
+            var name = $( "#cgi" ).val();
+            $.ajax({dataType: "json",url: "http://localhost:8080/game/create/"+name,
+            type:"POST",
+            data:{},
+            success: function(result){
+               console.log(result);
+               console.log(result.responseText);
+               $("#messages").html("Started a new game. "+result.state+" "+result.alphabet);
+            },
+            error: function(result){
+                console.log(result);
+            }
+            });
+        });
+    });
+
+     $(document).ready(function(){
+        $("#gl").click(function(){
+            var gameId = $( "#gameId" ).val();
+            var letter = $( "#letter" ).val();
+            $.ajax({dataType: "json",url: "http://localhost:8080/game/guessLetter/"+gameId,
+            type:"POST",
+            contentType: "application/json",
+            data:letter,
+            success: function(result){
+               $("#messages").html(result.response);
+            },
+            error: function(result){
+
+            }
+            });
+        });
+    });
+</script>
+</head>
+<html>
+<body>
+<h2>Welcome to Hangman!</h2>
+<p>Create User</p>
+Name: <input type="text" id="cui"><br>
+<button id="cu">Create User</button>
+
+<p>Create Game</p>
+Name: <input type="text" id="cgi"><br>
+<button id="cg">Create Game</button>
+
+<p>Guess Letter</p>
+Game Id: <input type="text" id="gameId"><br>
+Letter: <input type="text" id="letter"><br>
+<button id="gl">Guess Letter</button>
+
+<h3 id="messages">Messages will go here</h3>
+
+<button type="button" id="mp">Management Page</button>
+<p>Games</p>
+<p>Id user finished</p>
+<p id="managementPage"></p>
+</body>
+</html>
