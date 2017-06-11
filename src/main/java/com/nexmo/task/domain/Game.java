@@ -15,6 +15,7 @@ public class Game {
     private Boolean finished;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id",nullable = false)
     private AppUser appUser;
 
     @Column
@@ -29,7 +30,7 @@ public class Game {
     @Column
     private Integer health;
 
-    private static final String DEFAULT_ALPHABET="ABCDEFGHIJKLMNOPQRSTVUWXYZ";
+    public static final String DEFAULT_ALPHABET="ABCDEFGHIJKLMNOPQRSTVUWXYZ";
 
     public Game(){}
 

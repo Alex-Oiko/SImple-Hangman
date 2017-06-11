@@ -1,21 +1,29 @@
 package com.nexmo.task.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class AppUser {
 
   @Id
+  @GeneratedValue
+  private Long id;
+
+  @Column
   private String username;
 
-  @OneToMany(fetch = FetchType.LAZY)
-  private List<Game> games;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser", fetch = FetchType.LAZY)
+  @JsonIgnore
+  private Set<Game> games;
 
   public AppUser(){}
 
-  public AppUser(String username){
+  public AppUser(Long id,String username){
+    this.id = id;
     this.username = username;
   }
 
@@ -27,11 +35,19 @@ public class AppUser {
     this.username = username;
   }
 
-  public List<Game> getGames() {
+  public Set<Game> getGames() {
     return games;
   }
 
-  public void setGames(List<Game> games) {
+  public void setGames(Set<Game> games) {
     this.games = games;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 }

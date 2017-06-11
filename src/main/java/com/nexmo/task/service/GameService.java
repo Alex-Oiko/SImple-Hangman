@@ -35,8 +35,8 @@ public class GameService {
     private static final Integer STARTING_HEALTH = 100;
     private static final String REPLACED_LETTER = "_";
 
-    public Game createGame(String username) throws SystemException {
-        AppUser appUser = userRepository.findOne(username);
+    public Game createGame(Long id) throws SystemException {
+        AppUser appUser = userRepository.findOne(id);
 
         if(appUser == null){
           throw new SystemException(ExceptionCode.USER_NOT_FOUND);
@@ -57,7 +57,7 @@ public class GameService {
             throw new SystemException(ExceptionCode.GAME_NOT_FOUND);
         }
 
-        if(game.getAlphabet().indexOf(letter) < 0){
+        if(Game.DEFAULT_ALPHABET.indexOf(letter) < 0){
             throw new SystemException(ExceptionCode.LETTER_NOT_ALPHABETICAL);
         }
         else if(game.getState().indexOf(letter) >= 0

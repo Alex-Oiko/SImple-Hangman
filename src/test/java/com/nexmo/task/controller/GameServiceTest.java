@@ -39,7 +39,7 @@ public class GameServiceTest {
 
     @Test
     public void testGuessLetterGameOver() throws Exception {
-        AppUser appUser = new AppUser("test");
+        AppUser appUser = new AppUser((long) 1,"test");
         Game game = new Game(appUser, 20);
         String character = "ERLICH BACHMAN";
         game.setCharacter(character);
@@ -53,7 +53,7 @@ public class GameServiceTest {
 
     @Test
     public void testGuessLetterGameOverSuccessfully() throws Exception {
-        AppUser appUser = new AppUser("test");
+        AppUser appUser = new AppUser((long) 1,"test");
         Game game = new Game(appUser, 100);
         String character = "ERLICH BACHMAN";
         game.setCharacter(character);

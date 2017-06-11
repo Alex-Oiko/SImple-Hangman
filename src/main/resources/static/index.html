@@ -8,9 +8,9 @@
         $("#mp").click(function(){
             $.ajax({dataType: "json",url: "http://localhost:8080/game/managementPage",
             success: function(result){
-                $("#managementPage").html("Games:");
+                console.log(result);
                  for(var key in result) {
-                    $("#managementPage").html(result[key].id+" "+result[key].appUser.username+" "+result[key].finished);
+                    $("#managementPage").append(result[key].id+" "+result[key].appUser.username+" "+result[key].finished+"<br/>");
                 }
             }
             });
@@ -23,14 +23,14 @@
             data:{},
             success: function(result){
                console.log(result);
-               $("#messages").html("Created user "+result.username);
+               $("#messages").html("Created user! Id is "+result.id+" and username is"+result.username);
             }
             });
         });
 
         $("#cg").click(function(){
-            var name = $( "#cgi" ).val();
-            $.ajax({dataType: "json",url: "http://localhost:8080/game/create/"+name,
+            var id = $( "#cgi" ).val();
+            $.ajax({dataType: "json",url: "http://localhost:8080/game/create/"+id,
             type:"POST",
             data:{},
             success: function(result){
@@ -38,7 +38,7 @@
                 $("#messages").html(result.response);
                }
                else{
-                $("#messages").html("Started a new game. "+result.state+" "+result.alphabet);
+                $("#messages").html("Started a new game with id "+result.id+" "+result.state+" "+result.alphabet);
                }
             },
             error: function(result){
@@ -75,7 +75,7 @@
     <button id="cu">Create User</button>
 
     <p>Create Game</p>
-    Name: <input type="text" id="cgi">
+    User id: <input type="text" id="cgi">
     <br>
     <button id="cg">Create Game</button>
 
