@@ -29,7 +29,16 @@ public class Game {
     @Column
     private Integer health;
 
+    private static final String DEFAULT_ALPHABET="ABCDEFGHIJKLMNOPQRSTVUWXYZ";
+
     public Game(){}
+
+    public Game(appUser, health){
+      this.appUser = appUser
+      this.finished = false;
+      this.health = health;
+      this.alphabet = DEFAULT_ALPHABET;
+    }
 
     public Long getId() {
         return id;

@@ -28,14 +28,10 @@ public class Application {
     return (args) -> {
       AppUser appUser= new AppUser("Alex");
       userRepository.save(appUser);
-      Game game = new Game();
-      game.setAppUser(appUser);
-      game.setFinished(false);
-      game.setHealth(100);
+      Game game = new Game(appUser, 100);
       String character = "ERLICH BACHMAN";
       game.setCharacter(character);
       game.setState(character.replaceAll("[A-Z]", "_"));
-      game.setAlphabet(GameService.ALPHABET);
       gameRepository.save(game);
     };
 
