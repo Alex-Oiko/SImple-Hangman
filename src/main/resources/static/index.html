@@ -1,4 +1,7 @@
-<head>
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
     $(document).ready(function(){
@@ -12,9 +15,7 @@
             }
             });
         });
-    });
 
-    $(document).ready(function(){
         $("#cu").click(function(){
             var name = $( "#cui" ).val();
             $.ajax({dataType: "json",url: "http://localhost:8080/user/create/"+name,
@@ -26,9 +27,7 @@
             }
             });
         });
-    });
 
-    $(document).ready(function(){
         $("#cg").click(function(){
             var name = $( "#cgi" ).val();
             $.ajax({dataType: "json",url: "http://localhost:8080/game/create/"+name,
@@ -44,9 +43,8 @@
             }
             });
         });
-    });
 
-     $(document).ready(function(){
+
         $("#gl").click(function(){
             var gameId = $( "#gameId" ).val();
             var letter = $( "#letter" ).val();
@@ -63,29 +61,33 @@
             });
         });
     });
-</script>
-</head>
-<html>
-<body>
-<h2>Welcome to Hangman!</h2>
-<p>Create User</p>
-Name: <input type="text" id="cui"><br>
-<button id="cu">Create User</button>
+    </script>
+  </head>
 
-<p>Create Game</p>
-Name: <input type="text" id="cgi"><br>
-<button id="cg">Create Game</button>
+  <body>
+    <h2>Welcome to Hangman!</h2>
+    <p>Create User</p>
+    Name: <input type="text" id="cui">
+    <br>
+    <button id="cu">Create User</button>
 
-<p>Guess Letter</p>
-Game Id: <input type="text" id="gameId"><br>
-Letter: <input type="text" id="letter"><br>
-<button id="gl">Guess Letter</button>
+    <p>Create Game</p>
+    Name: <input type="text" id="cgi">
+    <br>
+    <button id="cg">Create Game</button>
 
-<h3 id="messages">Messages will go here</h3>
+    <p>Guess Letter</p>
+    Game Id: <input type="text" id="gameId">
+    <br>
+    Letter: <input type="text" id="letter">
+    <br>
+    <button id="gl">Guess Letter</button>
 
-<button type="button" id="mp">Management Page</button>
-<p>Games</p>
-<p>Id user finished</p>
-<p id="managementPage"></p>
-</body>
+    <h3 id="messages">Messages will go here</h3>
+
+    <button type="button" id="mp">Management Page</button>
+    <p>Games</p>
+    <p>Id user finished</p>
+    <p id="managementPage"></p>
+  </body>
 </html>

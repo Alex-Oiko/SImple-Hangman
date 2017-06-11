@@ -24,36 +24,54 @@ public class GameService {
     @Autowired
     UserRepository userRepository;
 
-    public static final String ALPHABET="ABCDEFGHIJKLMNOPQRSTVUWXYZ";
-    private static final String[] PLAYABLE_CHARACTERS = {"ANGELINA JOLIE","BRAD PITT","JENNIFER ANISTON","DONALD KNUTH","ERLICH BACHMAN"};
+    private static final String[] PLAYABLE_CHARACTERS = {
+      "ANGELINA JOLIE",
+      "BRAD PITT",
+      "JENNIFER ANISTON",
+      "DONALD KNUTH",
+      "ERLICH BACHMAN"
+    };
     private static final Integer HEALTH_REDUCER = 20;
     private static final Integer STARTING_HEALTH = 100;
     private static final String REPLACED_LETTER = "_";
 
-    public Game createGame(String username){
+    public Game createGame(String username) throws SystemException {
         AppUser appUser = userRepository.findOne(username);
-        if(appUser == null) throw new SystemException(ExceptionCode.USER_NOT_FOUND);
-        Game game = new Game();
-        game.setAppUser(appUser);
-        game.setFinished(false);
-        game.setHealth(STARTING_HEALTH);
-        String character = PLAYABLE_CHARACTERS[ThreadLocalRandom.current().nextInt(0, PLAYABLE_CHARACTERS.length)];
+
+        if(appUser == null){
+          throw new SystemException(ExceptionCode.USER_NOT_FOUND);
+        }
+
+        Game game = new Game(appUser, STARTING_HEALTH);
+        String character = PLAYABLE_CHARACTERS[
+          ThreadLocalRandom.current().nextInt(0, PLAYABLE_CHARACTERS.length)
+        ];
         game.setCharacter(character);
         game.setState(character.replaceAll("[A-Z]", REPLACED_LETTER));
-        game.setAlphabet(ALPHABET);
         return this.gameRepository.save(game);
     }
 
     public String guessLetter(Long gameId, String letter){
         Game game = gameRepository.findOne(gameId);
-        if(game == null) throw new SystemException(ExceptionCode.GAME_NOT_FOUND);
-        if(game.getAlphabet().indexOf(letter) < 0) throw new SystemException(ExceptionCode.LETTER_NOT_ALPHABETICAL);
+        if(game == null) {
+            throw new SystemException(ExceptionCode.GAME_NOT_FOUND);
+        }
 
-        else if(game.getState().indexOf(letter) >= 0 || game.getAlphabet().indexOf(letter) < 0){
+        if(game.getAlphabet().indexOf(letter) < 0){
+            throw new SystemException(ExceptionCode.LETTER_NOT_ALPHABETICAL);
+        }
+        else if(game.getState().indexOf(letter) >= 0
+                || game.getAlphabet().indexOf(letter) < 0){
             return "Already used this letter";
         }
         else if(game.getCharacter().indexOf(letter) >= 0){
-            game.setState(HangmanUtil.getState(letter.toCharArray()[0], game.getCharacter(), game.getState()));
+            game.setState(
+                HangmanUtil.getState(
+                    letter.toCharArray()[0],
+                    game.getCharacter(),
+                    game.getState()
+                )
+            );
             game.setAlphabet(game.getAlphabet().replace(letter,""));
             if(game.getCharacter().equals(game.getState())){
                 game.setFinished(true);
@@ -62,12 +80,14 @@ public class GameService {
             }
             else {
                 gameRepository.save(game);
-                return game.getState()+"\nAvailable characters: "+game.getAlphabet();
+                return game.getState() +
+                        "\nAvailable characters: " +
+                        game.getAlphabet();
             }
         }
         else{
-            game.setHealth(game.getHealth()-HEALTH_REDUCER);
-            game.setAlphabet(game.getAlphabet().replace(letter,""));
+            game.setHealth(game.getHealth() - HEALTH_REDUCER);
+            game.setAlphabet(game.getAlphabet().replace(letter, ""));
             if(game.getHealth().equals(0)){
                 game.setFinished(true);
                 gameRepository.save(game);
@@ -75,7 +95,13 @@ public class GameService {
             }
             else{
                 gameRepository.save(game);
-                return "Woops. Wrong Letter. Health: "+game.getHealth()+"\n"+game.getState()+"\nAvailable characters: "+game.getAlphabet();
+                // TODO: Use a string formatter here
+                return "Woops. Wrong Letter. Health: " +
+                        game.getHealth() +
+                        "\n" +
+                        game.getState() +
+                        "\nAvailable characters: " +
+                        game.getAlphabet();
             }
         }
     }
