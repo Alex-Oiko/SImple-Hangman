@@ -2,6 +2,7 @@ package com.nexmo.task.controller;
 
 
 import com.nexmo.task.exceptions.SystemException;
+import com.nexmo.task.response.StringResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,10 +20,19 @@ public class ExceptionHandlerController {
 
 
 	@ExceptionHandler(SystemException.class)
-	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-	public ResponseEntity<String> runtimeExceptionHandler(SystemException ex) {
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<StringResponse> runtimeExceptionHandler(SystemException ex) {
 		logger.error(ex.getMessage());
-		return ResponseEntity.ok().body(ex.getMessage());
+		return ResponseEntity.ok().body(new StringResponse(ex.getMessage()));
 	}
+
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public ResponseEntity<StringResponse> runtimeExceptionHandler(Exception ex) {
+		logger.error(ex.getMessage());
+		return ResponseEntity.ok().body(new StringResponse(ex.getMessage()));
+	}
+
+
 
 }

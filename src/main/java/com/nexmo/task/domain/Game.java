@@ -33,8 +33,8 @@ public class Game {
 
     public Game(){}
 
-    public Game(appUser, health){
-      this.appUser = appUser
+    public Game(AppUser appUser, Integer health){
+      this.appUser = appUser;
       this.finished = false;
       this.health = health;
       this.alphabet = DEFAULT_ALPHABET;

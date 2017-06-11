@@ -34,12 +34,15 @@
             type:"POST",
             data:{},
             success: function(result){
-               console.log(result);
-               console.log(result.responseText);
-               $("#messages").html("Started a new game. "+result.state+" "+result.alphabet);
+               if(result.state == null){
+                $("#messages").html(result.response);
+               }
+               else{
+                $("#messages").html("Started a new game. "+result.state+" "+result.alphabet);
+               }
             },
             error: function(result){
-                console.log(result);
+                $("#messages").html(result.response);
             }
             });
         });
@@ -56,7 +59,7 @@
                $("#messages").html(result.response);
             },
             error: function(result){
-
+                $("#messages").html(result.response);
             }
             });
         });
