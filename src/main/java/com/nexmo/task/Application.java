@@ -22,6 +22,7 @@ public class Application {
     SpringApplication.run(Application.class, args);
   }
 
+
   @Bean
   public CommandLineRunner demo(UserRepository userRepository, GameRepository gameRepository) {
     return (args) -> {

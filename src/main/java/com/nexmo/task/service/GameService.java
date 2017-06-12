@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**This class includes the business logic of the application along with some CR operations.
+ *
+ */
 @Service
 public class GameService {
 
@@ -51,6 +54,13 @@ public class GameService {
         return this.gameRepository.save(game);
     }
 
+    /**This method includes the business logic of playing the game of hangman. It checkes whether the
+     * letter the player selected is contained in the character to be guessed as well as some edge cases
+     *
+     * @param gameId to be played
+     * @param letter to be guessed
+     * @return
+     */
     public String guessLetter(Long gameId, String letter){
         Game game = gameRepository.findOne(gameId);
         if(game == null) {
@@ -95,7 +105,6 @@ public class GameService {
             }
             else{
                 gameRepository.save(game);
-                // TODO: Use a string formatter here
                 return "Woops. Wrong Letter. Health: " +
                         game.getHealth() +
                         "\n" +

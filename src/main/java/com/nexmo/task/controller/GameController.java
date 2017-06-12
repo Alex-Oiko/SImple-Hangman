@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**Simple Rest controller for the game service. Has basic needed CR operations and business logic for playing the
+ * game
+ *
+ */
 @RestController
 @RequestMapping(value = "/game", produces = MediaType.APPLICATION_JSON_VALUE)
 public class GameController {

@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.Set;
 
+/**A simple user entity, storing users and their usernames
+ *
+ */
 @Entity
 public class AppUser {
 

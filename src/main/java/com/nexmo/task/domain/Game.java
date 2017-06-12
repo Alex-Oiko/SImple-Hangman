@@ -3,6 +3,12 @@ package com.nexmo.task.domain;
 
 import javax.persistence.*;
 
+
+/**The game entity. This is where the state of the game is saved so. It includes the character to be solved, tha characters
+ * already guessed, the health of the user before he dies.
+ *
+ *
+ */
 @Entity
 @Table
 public class Game {
