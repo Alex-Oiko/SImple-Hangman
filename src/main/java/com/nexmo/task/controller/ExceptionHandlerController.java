@@ -23,14 +23,14 @@ public class ExceptionHandlerController {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ResponseEntity<StringResponse> runtimeExceptionHandler(SystemException ex) {
 		logger.error(ex.getMessage());
-		return ResponseEntity.ok().body(new StringResponse(ex.getMessage()));
+		return ResponseEntity.badRequest().body(new StringResponse(ex.getMessage()));
 	}
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public ResponseEntity<StringResponse> runtimeExceptionHandler(Exception ex) {
 		logger.error(ex.getMessage());
-		return ResponseEntity.ok().body(new StringResponse(ex.getMessage()));
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new StringResponse(ex.getMessage()));
 	}
 
 
